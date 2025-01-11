@@ -1,7 +1,6 @@
 import { EvmBatchProcessor } from '@subsquid/evm-processor';
 import { Address, ChainConfig } from '../config/configuration';
-import * as givAbi from '../abi/GIV';
-import { tokenDistroAbi, unipoolAbi } from '../abi';
+import { givAbi, tokenDistroAbi, unipoolAbi } from '../abi';
 
 const addressToTopic = (address: Address): string => {
   const topic =
@@ -22,7 +21,7 @@ export const addFilters = (
     transaction: true,
   });
 
-  for (const unipoolAddress of chainConfig.unipoolAddresses) {
+  for (const { address: unipoolAddress } of chainConfig.unipools) {
     // Filter GIV Transfers to Unipool
     processor
       .addLog({

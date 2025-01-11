@@ -13,6 +13,7 @@ export const initializeProcessors = () => {
 
   // for key and values
   for (const key in chains) {
+    logger.info(`Initializing processor for chain ${key}`);
     const chainConfig = chains[key as Chain]!;
     const processor = new EvmBatchProcessor()
       .setGateway(chainConfig.gateway)

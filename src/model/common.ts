@@ -1,4 +1,4 @@
-import { Address, Chain } from '../config/configuration';
+import { Address, Chain, configuration } from '../config/configuration';
 import { Store } from '@subsquid/typeorm-store';
 import { TokenDistro, Unipool } from './generated';
 
@@ -35,9 +35,16 @@ export const getUniPool = async (
 ): Promise<Unipool> => {
   let unipool = await store.get(Unipool, getEntityId(idParams));
   if (!unipool) {
+    const chainConfig = configuration.chains[idParams.chain];
+    const unipoolConfig = chainConfig?.unipools.find(
+      (u) => u.address === idParams.address,
+    );
+    const name = unipoolConfig?.name || 'Unknown';
+
     unipool = new Unipool({
       id: getEntityId(idParams),
       chain: idParams.chain,
+      name,
       address: idParams.address,
       totalNotified: 0n,
       totalAssignedTo: 0n,

@@ -1,4 +1,4 @@
-import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
+import {Entity as Entity_, PrimaryColumn as PrimaryColumn_, StringColumn as StringColumn_, BigIntColumn as BigIntColumn_} from "@subsquid/typeorm-store"
 
 @Entity_()
 export class Unipool {
@@ -14,6 +14,9 @@ export class Unipool {
 
     @StringColumn_({nullable: false})
     address!: string
+
+    @StringColumn_({nullable: true})
+    name!: string | undefined | null
 
     /**
      * Total amount of reward notification

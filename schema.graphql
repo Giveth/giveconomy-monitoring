@@ -2,6 +2,7 @@ type Unipool @entity {
   id: ID!
   chain: String!
   address: String!
+  name: String
   "Total amount of reward notification"
   totalNotified: BigInt!
   "Total amount of token distro balance assigned to the distributor"

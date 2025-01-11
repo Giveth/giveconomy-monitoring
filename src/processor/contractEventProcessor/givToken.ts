@@ -1,6 +1,6 @@
 import { givAbi } from '../../abi';
 import { Chain, configuration } from '../../config/configuration';
-import { getEntityId, getTokenDistro } from '../../model/common';
+import { getTokenDistro } from '../../model/common';
 import { EventProcessParams } from './types';
 
 export const processGivToken = async (params: EventProcessParams) => {
@@ -28,9 +28,6 @@ const processTransferEvent = async ({
   const { to, value } = givAbi.events.Transfer.decode(log);
 
   if (to === tokenDistroAddress) {
-    ctx.log.info(`Transfer to tokenDistro: ${value}`);
-    const id = getEntityId({ chain, address: tokenDistroAddress });
-
     const tokenDistro = await getTokenDistro(
       { chain, address: tokenDistroAddress },
       ctx.store,
@@ -38,6 +35,11 @@ const processTransferEvent = async ({
 
     tokenDistro.totalGIVBalance += value;
     await ctx.store.upsert(tokenDistro);
+
+    ctx.log.info(`Updated TokenDistro total GIV balance.
+      Chain: ${chain}
+      Added amount: ${value}
+      New total GIV balance: ${tokenDistro.totalGIVBalance}`);
   } else {
     ctx.log.error(`Unsupported transfer to address: ${to} on chain ${chain}`);
   }

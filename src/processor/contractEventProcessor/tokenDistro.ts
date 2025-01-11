@@ -28,7 +28,10 @@ const processAssignEvent = async ({ chain, ctx, log }: EventProcessParams) => {
   const { distributor, amount } = tokenDistroAbi.events.Assign.decode(log);
   const unipoolAddresses = distributor.toLocaleLowerCase() as Address;
 
-  if (!chainConfig.unipoolAddresses.includes(unipoolAddresses)) {
+  const unipoolConfig = chainConfig.unipools.find(
+    (u) => u.address === unipoolAddresses,
+  );
+  if (!unipoolConfig) {
     ctx.log.error(
       `Unknown distributor address: ${distributor} on chain ${chain}`,
     );
@@ -50,9 +53,10 @@ const processAssignEvent = async ({ chain, ctx, log }: EventProcessParams) => {
   unipool.totalAssignedTo += amount;
   await ctx.store.upsert(unipool);
 
-  ctx.log.info(`update unipool ${unipool.id} totalAssigned to:
-
-    ${unipool.totalAssignedTo} with amount: ${amount}`);
+  ctx.log.info(`Updated unipool "${unipoolConfig.name}" total assigned to.
+    Chain: ${chain}
+    Added amount: ${amount}
+    New total assigned to: ${unipool.totalAssignedTo}`);
 
   checkTokenDistroSanity({
     tokenDistro,

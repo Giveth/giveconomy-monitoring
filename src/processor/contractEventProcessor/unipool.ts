@@ -1,5 +1,10 @@
 import { unipoolAbi } from '../../abi';
-import { Address, Chain, configuration } from '../../config/configuration';
+import {
+  Address,
+  Chain,
+  ChainConfig,
+  configuration,
+} from '../../config/configuration';
 import { getUniPool } from '../../model/common';
 import { checkUnipoolSanity } from '../sanityCheck';
 import { EventProcessParams } from './types';
@@ -25,11 +30,11 @@ const processRewardAddedEvent = async ({
     `Processing RewardAdded event: ${chain}-${log.transaction?.hash}`,
   );
 
-  const chainConfig = configuration.chains[chain as Chain]!;
-  const { unipoolAddresses } = chainConfig;
+  const chainConfig = configuration.chains[chain as Chain] as ChainConfig;
+  const { unipools: unipoolAddresses } = chainConfig;
 
   const unipoolAddress = log.address.toLocaleLowerCase() as Address;
-  if (!unipoolAddresses.includes(unipoolAddress)) {
+  if (!unipoolAddresses.some((u) => u.address === unipoolAddress)) {
     ctx.log.error(`Unknown unipool address: ${log.address} on chain ${chain}`);
     return;
   }
@@ -43,6 +48,11 @@ const processRewardAddedEvent = async ({
 
   unipool.totalNotified += reward;
   await ctx.store.upsert(unipool);
+
+  ctx.log.info(`Updated unipool "${unipool.name}" total notified.
+    Chain: ${chain}
+    Added amount: ${reward}
+    New total notified: ${unipool.totalNotified}`);
 
   await checkUnipoolSanity({
     unipool,

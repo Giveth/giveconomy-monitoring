@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "GIVeconomy monitoring service",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "codegen": "squid-typeorm-codegen",
-    "eslint:fix": "eslint --fix src/*.ts src/**/*.ts src/**/**/*.ts"
+    "eslint:fix": "eslint --no-warn-ignored --fix src/*.ts src/**/*.ts src/**/**/*.ts"
   },
   "repository": {
     "type": "git",

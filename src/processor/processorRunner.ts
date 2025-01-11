@@ -1,6 +1,11 @@
 import { EvmBatchProcessor } from '@subsquid/evm-processor';
 import { TypeormDatabase } from '@subsquid/typeorm-store';
-import { Address, Chain, configuration } from '../config/configuration';
+import {
+  Address,
+  Chain,
+  ChainConfig,
+  configuration,
+} from '../config/configuration';
 import {
   processTokenDistro,
   processGivToken,
@@ -16,7 +21,7 @@ export const runProcessor = async ({
   chain: Chain;
   db: TypeormDatabase;
 }) => {
-  const chainConfig = configuration.chains[chain as Chain]!;
+  const chainConfig = configuration.chains[chain as Chain] as ChainConfig;
 
   processor.run(db, async (ctx) => {
     for (const block of ctx.blocks) {
@@ -31,7 +36,9 @@ export const runProcessor = async ({
             break;
 
           default:
-            if (chainConfig.unipoolAddresses.includes(contractAddress)) {
+            if (
+              chainConfig.unipools.some((u) => u.address === contractAddress)
+            ) {
               await processUnipool({ chain, log, ctx });
             } else {
               ctx.log.error(
@@ -40,18 +47,7 @@ export const runProcessor = async ({
             }
             break;
         }
-
-        // let { from, to, value } = usdtAbi.events.Transfer.decode(log);
-        // transfers.push(
-        //   new Transfer({
-        //     id: log.id,
-        //     from,
-        //     to,
-        //     value,
-        //   })
-        // );
       }
     }
-    // await ctx.store.insert(transfers);
   });
 };

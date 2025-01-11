@@ -1,15 +1,15 @@
-import unusedImports from 'eslint-plugin-unused-imports';
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
-import prettierPlugin from 'eslint-plugin-prettier';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+const unusedImports = require('eslint-plugin-unused-imports');
+const typescriptEslint = require('@typescript-eslint/eslint-plugin');
+const typescriptParser = require('@typescript-eslint/parser');
+const prettierPlugin = require('eslint-plugin-prettier');
+const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
 
-export default [
+exports.default = [
   {
-    ignores: ['src/model/generated/*.ts'],
+    ignores: ['src/model/generated', 'lib', 'db/migrations'],
   },
   {
-    files: ['**/*.ts', '**/*.tsx'], // Apply rules to TypeScript files
+    files: ['**/*.ts', 'src/processor/contractEventProcessor/givToken.ts'], // Apply rules to TypeScript files
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {
@@ -27,15 +27,7 @@ export default [
     rules: {
       'no-unused-vars': 'off', // or "@typescript-eslint/no-unused-vars": "off",
       'unused-imports/no-unused-imports': 'error',
-      'unused-imports/no-unused-vars': [
-        'warn',
-        {
-          vars: 'all',
-          varsIgnorePattern: '^_',
-          args: 'after-used',
-          argsIgnorePattern: '^_',
-        },
-      ],
+      'unused-imports/no-unused-vars': 'error',
     },
   },
   eslintPluginPrettierRecommended,
