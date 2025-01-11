@@ -1,6 +1,19 @@
-type Transfer @entity {
+type Unipool @entity @index(fields: ["chain", "address"]) {
   id: ID!
-  from: String! @index
-  to: String! @index
-  value: BigInt!
+  chain: Int!
+  address: String! @index
+  "Total amount of reward notification"
+  totalNotified: BigDecimal!
+  "Total amount of token distro balance assigned to the distributor"
+  totalAssignedTo: BigDecimal!
+}
+
+type TokenDistro @entity @index(fields: ["chain", "address"]) {
+  id: ID!
+  chain: Int!
+  address: String! @index
+  "Total amount of GIV token sent to the distributor"
+  totalGIVBalance: BigDecimal!
+  "Total amount of balance assigned to the distributors"
+  totalAssigned: BigDecimal!
 }

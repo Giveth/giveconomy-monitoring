@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "codegen": "squid-typeorm-codegen"
+    "codegen": "squid-typeorm-codegen",
+    "eslint:fix": "eslint --fix src/*.ts src/**/*.ts src/**/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,14 @@
   "devDependencies": {
     "@subsquid/evm-typegen": "^4.3.0",
     "@subsquid/typeorm-codegen": "^2.0.2",
-    "typescript": "^5.7.2"
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "prettier": "3.4.2",
+    "typescript": "^5.7.3"
   }
 }
