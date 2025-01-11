@@ -1,19 +1,19 @@
-type Unipool @entity @index(fields: ["chain", "address"]) {
+type Unipool @entity {
   id: ID!
-  chain: Int!
-  address: String! @index
+  chain: String!
+  address: String!
   "Total amount of reward notification"
-  totalNotified: BigDecimal!
+  totalNotified: BigInt!
   "Total amount of token distro balance assigned to the distributor"
-  totalAssignedTo: BigDecimal!
+  totalAssignedTo: BigInt!
 }
 
-type TokenDistro @entity @index(fields: ["chain", "address"]) {
+type TokenDistro @entity {
   id: ID!
-  chain: Int!
-  address: String! @index
+  chain: String!
+  address: String!
   "Total amount of GIV token sent to the distributor"
-  totalGIVBalance: BigDecimal!
+  totalGIVBalance: BigInt!
   "Total amount of balance assigned to the distributors"
-  totalAssigned: BigDecimal!
+  totalAssigned: BigInt!
 }

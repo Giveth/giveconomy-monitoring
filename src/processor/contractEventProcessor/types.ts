@@ -1,4 +1,4 @@
-import { Store, TypeormDatabase } from '@subsquid/typeorm-store';
+import { Store } from '@subsquid/typeorm-store';
 import { Chain } from '../../config/configuration';
 import {
   DataHandlerContext,
@@ -8,7 +8,7 @@ import {
 
 export type EventProcessParams = {
   chain: Chain;
-  db: TypeormDatabase;
   log: Log;
+
   ctx: DataHandlerContext<Store, FieldSelection>;
 };

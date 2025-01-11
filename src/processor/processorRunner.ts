@@ -24,15 +24,15 @@ export const runProcessor = async ({
         const contractAddress = log.address.toLocaleLowerCase() as Address;
         switch (contractAddress) {
           case chainConfig.givTokenAddress:
-            processGivToken({ chain, db, log, ctx });
+            await processGivToken({ chain, log, ctx });
             break;
           case chainConfig.tokenDistroAddress:
-            processTokenDistro({ chain, db, log, ctx });
+            await processTokenDistro({ chain, log, ctx });
             break;
 
           default:
             if (chainConfig.unipoolAddresses.includes(contractAddress)) {
-              processUnipool({ chain, db, log, ctx });
+              await processUnipool({ chain, log, ctx });
             } else {
               ctx.log.error(
                 `Unknown contract address: ${contractAddress} on chain ${chain}`,

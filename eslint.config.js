@@ -6,6 +6,9 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default [
   {
+    ignores: ['src/model/generated/*.ts'],
+  },
+  {
     files: ['**/*.ts', '**/*.tsx'], // Apply rules to TypeScript files
     languageOptions: {
       parser: typescriptParser,

@@ -1,6 +1,7 @@
 import { EvmBatchProcessor } from '@subsquid/evm-processor';
 import { Address, ChainConfig } from '../config/configuration';
 import * as givAbi from '../abi/GIV';
+import { tokenDistroAbi, unipoolAbi } from '../abi';
 
 const addressToTopic = (address: Address): string => {
   const topic =
@@ -21,20 +22,22 @@ export const addFilters = (
     transaction: true,
   });
 
-  // for (const unipoolAddress of chainConfig.unipoolAddresses) {
-  //   // Filter GIV Transfers to Unipool
-  //   processor
-  //     .addLog({
-  //       address: [chainConfig.givTokenAddress],
-  //       topic0: [tokenDistroAbi.events.Assign.topic],
-  //       // Distributor is unipool
-  //       topic2: [addressToTopic(unipoolAddress)],
-  //     })
-  //     .addLog({
-  //       address: [unipoolAddress],
-  //       topic0: [unipoolAbi.events.RewardAdded.topic],
-  //     });
-  // }
+  for (const unipoolAddress of chainConfig.unipoolAddresses) {
+    // Filter GIV Transfers to Unipool
+    processor
+      .addLog({
+        address: [chainConfig.tokenDistroAddress],
+        topic0: [tokenDistroAbi.events.Assign.topic],
+        // Distributor is unipool
+        topic2: [addressToTopic(unipoolAddress)],
+        transaction: true,
+      })
+      .addLog({
+        address: [unipoolAddress],
+        topic0: [unipoolAbi.events.RewardAdded.topic],
+        transaction: true,
+      });
+  }
 
   return processor;
 };

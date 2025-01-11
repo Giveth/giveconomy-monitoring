@@ -1,6 +1,6 @@
 import { productionConfiguration } from './production';
 import { developConfiguration } from './develop';
-export type Chain = 'gnosis' | 'optimism';
+export type Chain = 'gnosis' | 'optimism' | 'mainnet' | 'polygon_zkevm';
 // an ethereum address type as all lowercase
 export type Address = Lowercase<`0x${string}`>;
 
