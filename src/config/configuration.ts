@@ -4,12 +4,25 @@ export type Chain = 'gnosis' | 'optimism' | 'mainnet' | 'polygon_zkevm';
 // an ethereum address type as all lowercase
 export type Address = Lowercase<`0x${string}`>;
 
-export interface UnipoolConfig {
+export interface NamedAddress {
   name: string;
   address: Address;
 }
 
-export interface ChainConfig {
+export interface UnipoolInfo extends NamedAddress {}
+export interface BotInfo extends NamedAddress {}
+
+type AllOrNothing<T extends Record<string, any>> =
+  | T
+  | Partial<Record<keyof T, never>>;
+
+// Define BotMonitoringConfig to enforce mutual presence
+type BotMonitoringConfig = AllOrNothing<{
+  bots: BotInfo[];
+  botMinBalance: number;
+}>;
+
+export type ChainConfig = {
   gateway: string;
   rpc: string;
   fromBlock: number;
@@ -17,11 +30,11 @@ export interface ChainConfig {
 
   tokenDistroAddress: Address;
   givTokenAddress: Address;
-  unipools: UnipoolConfig[];
+  unipools: UnipoolInfo[];
 
   ratelimit?: number;
   finalityConfirmation?: number;
-}
+} & BotMonitoringConfig;
 
 export interface Configuration {
   chains: Partial<Record<Chain, ChainConfig>>;

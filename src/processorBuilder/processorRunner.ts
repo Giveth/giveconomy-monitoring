@@ -10,7 +10,8 @@ import {
   processGivToken,
   processTokenDistro,
   processUnipool,
-} from './contractEventProcessor';
+} from './eventProcessor';
+import { processBotTx } from './eventProcessor/bot';
 
 export const runProcessor = async ({
   processor,
@@ -48,6 +49,10 @@ export const runProcessor = async ({
             }
             break;
         }
+      }
+      for (const tx of block.transactions) {
+        // process transactions
+        processBotTx({ chain, tx, ctx });
       }
     }
   });

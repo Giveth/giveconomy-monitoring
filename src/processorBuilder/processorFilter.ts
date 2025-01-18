@@ -30,6 +30,11 @@ export const addProcessorFilter = (
         transaction: true,
       });
   }
+  for (const { address: botAddress } of chainConfig?.bots || []) {
+    processor.addTransaction({
+      from: [botAddress],
+    });
+  }
 
   return processor;
 };

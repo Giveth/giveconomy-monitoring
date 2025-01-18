@@ -67,6 +67,13 @@ export const productionConfiguration: Configuration = {
           address: '0x301c739cf6bfb6b47a74878bdeb13f92f13ae5e7',
         },
       ],
+      bots: [
+        {
+          name: 'OP GIVPower Bot',
+          address: '0x4ddc12737b28b0413539c4b044f0c10abd85c07c',
+        },
+      ],
+      botMinBalance: 0.005,
     },
     polygon_zkevm: {
       gateway: 'https://v2.archive.subsquid.io/network/polygon-zkevm-mainnet',
@@ -81,6 +88,13 @@ export const productionConfiguration: Configuration = {
           address: '0xc790f82bf6f8709aa4a56dc11afad7af7c2a9867',
         },
       ],
+      bots: [
+        {
+          name: 'GIVPower Bot',
+          address: '0x7ff3853f98497eb3fadbf83eb9756e18e476a40b',
+        },
+      ],
+      botMinBalance: 0.005,
     },
   },
 };

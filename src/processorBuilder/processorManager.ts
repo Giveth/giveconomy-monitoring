@@ -1,7 +1,6 @@
 import { EvmBatchProcessor } from '@subsquid/evm-processor';
 import { Chain, configuration } from '../config/configuration';
 import logger from '../logger';
-import { TypeormDatabase } from '@subsquid/typeorm-store';
 import { addProcessorFilter } from './processorFilter';
 import { runProcessor } from './processorRunner';
 

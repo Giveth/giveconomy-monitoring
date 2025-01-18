@@ -2,10 +2,17 @@ import {
   DataHandlerContext,
   FieldSelection,
   Log,
+  Transaction,
 } from '@subsquid/evm-processor';
 import { TokenDistro, Unipool } from '../../model';
 import { Store } from '@subsquid/typeorm-store';
-import { Chain, getChainExplorerUrl } from '../../config/configuration';
+import {
+  BotInfo,
+  Chain,
+  ChainConfig,
+  configuration,
+  getChainExplorerUrl,
+} from '../../config/configuration';
 
 /**
  * Checks the sanity of the token distribution by comparing the total assigned tokens
@@ -75,6 +82,36 @@ export const checkUnipoolSanity = async ({
       Time: ${new Date(log.block.timestamp).toISOString()}
       Link: ${getChainExplorerUrl(unipool.chain as Chain)}/tx/${log.transaction?.hash}
        `,
+    );
+  }
+};
+
+export const checkBotBalanceSanity = async ({
+  bot,
+  balance,
+  botMinBalance,
+  tx,
+  chain,
+  ctx,
+}: {
+  bot: BotInfo;
+  balance: number;
+  tx: Transaction;
+  chain: Chain;
+  botMinBalance: number;
+  ctx: DataHandlerContext<Store, FieldSelection>;
+}) => {
+  if (balance < botMinBalance) {
+    ctx.log.error(
+      `Bot balance is less than the minimum required balance:
+      Bot: ${bot.name}
+      Chain: ${chain}
+      Address: ${bot.address}
+      Balance: ${balance}
+      Minimum required balance: ${botMinBalance}
+      Time: ${new Date(tx.block.timestamp).toISOString()}
+      Link: ${getChainExplorerUrl(chain)}/tx/${tx.hash}
+      `,
     );
   }
 };
