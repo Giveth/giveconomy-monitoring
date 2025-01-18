@@ -1,18 +1,11 @@
 import { EvmBatchProcessor } from '@subsquid/evm-processor';
-import { Address, ChainConfig } from '../config/configuration';
 import { givAbi, tokenDistroAbi, unipoolAbi } from '../abi';
+import { Address, ChainConfig } from '../config/configuration';
 
-const addressToTopic = (address: Address): string => {
-  const topic =
-    '0x' + address.replace('x', '0').padStart(64, '0').toLowerCase();
-  return topic;
-};
-
-export const addFilters = (
+export const addProcessorFilter = (
   processor: EvmBatchProcessor,
   chainConfig: ChainConfig,
 ): EvmBatchProcessor => {
-  // Filter GIV Transfers to Token Distro
   processor.addLog({
     address: [chainConfig.givTokenAddress],
     topic0: [givAbi.events.Transfer.topic],
@@ -39,4 +32,10 @@ export const addFilters = (
   }
 
   return processor;
+};
+
+const addressToTopic = (address: Address): string => {
+  const topic =
+    '0x' + address.replace('x', '0').padStart(64, '0').toLowerCase();
+  return topic;
 };

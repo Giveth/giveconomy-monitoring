@@ -9,7 +9,7 @@ import { getUniPool } from '../../model/common';
 import { checkUnipoolSanity } from '../sanityCheck';
 import { EventProcessParams } from './types';
 
-export const processUnipool = async (params: EventProcessParams) => {
+export const processUnipoolEvent = async (params: EventProcessParams) => {
   const { ctx, log, chain } = params;
   ctx.log.info(`Processing unipool event: ${chain}-${log.transaction?.hash}`);
 

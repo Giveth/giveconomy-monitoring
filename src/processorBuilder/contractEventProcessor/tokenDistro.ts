@@ -4,7 +4,7 @@ import { getTokenDistro, getUniPool } from '../../model/common';
 import { checkTokenDistroSanity } from '../sanityCheck';
 import { EventProcessParams } from './types';
 
-export const processTokenDistro = async (params: EventProcessParams) => {
+export const processTokenDistroEvent = async (params: EventProcessParams) => {
   const { ctx, log, chain } = params;
   ctx.log.info(
     `Processing TokenDistro event: ${chain}-${log.transaction?.hash}`,

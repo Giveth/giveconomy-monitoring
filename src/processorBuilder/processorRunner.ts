@@ -1,26 +1,27 @@
 import { EvmBatchProcessor } from '@subsquid/evm-processor';
-import { TypeormDatabase } from '@subsquid/typeorm-store';
 import {
   Address,
   Chain,
   ChainConfig,
   configuration,
 } from '../config/configuration';
+import { TypeormDatabase } from '@subsquid/typeorm-store';
 import {
-  processTokenDistro,
   processGivToken,
+  processTokenDistro,
   processUnipool,
 } from './contractEventProcessor';
 
 export const runProcessor = async ({
   processor,
   chain,
-  db,
 }: {
   processor: EvmBatchProcessor;
   chain: Chain;
-  db: TypeormDatabase;
 }) => {
+  const db = new TypeormDatabase({
+    stateSchema: `processor_${chain}`,
+  });
   const chainConfig = configuration.chains[chain as Chain] as ChainConfig;
 
   processor.run(db, async (ctx) => {

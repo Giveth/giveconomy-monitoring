@@ -7,6 +7,18 @@ import { TokenDistro, Unipool } from '../../model';
 import { Store } from '@subsquid/typeorm-store';
 import { Chain, getChainExplorerUrl } from '../../config/configuration';
 
+/**
+ * Checks the sanity of the token distribution by comparing the total assigned tokens
+ * with the total GIV balance in the TokenDistro. Logs an error and alerts if the total assigned
+ * tokens exceed the total GIV balance.
+ *
+ * @param {Object} params - The parameters for the sanity check.
+ * @param {TokenDistro} params.tokenDistro - The token distribution details.
+ * @param {Log} params.log - The log details of the transaction.
+ * @param {DataHandlerContext<Store, FieldSelection>} params.ctx - The context for data handling.
+ *
+ * @returns {Promise<void>} - A promise that resolves when the sanity check is complete.
+ */
 export const checkTokenDistroSanity = async ({
   tokenDistro,
   log,
@@ -31,6 +43,17 @@ export const checkTokenDistroSanity = async ({
   }
 };
 
+/**
+ * Checks the sanity of a Unipool by comparing the total notified rewards with the total assigned balance.
+ * Logs an error and alerts if the notified rewards exceed the assigned balance.
+ *
+ * @param {Object} params - The parameters for the sanity check.
+ * @param {Unipool} params.unipool - The Unipool object containing details about the Unipool.
+ * @param {Log} params.log - The log object containing transaction and block information.
+ * @param {DataHandlerContext<Store, FieldSelection>} params.ctx - The context object for data handling and logging.
+ *
+ * @returns {Promise<void>} - A promise that resolves when the sanity check is complete.
+ */
 export const checkUnipoolSanity = async ({
   unipool,
   log,

@@ -3,7 +3,7 @@ import { Chain, configuration } from '../../config/configuration';
 import { getTokenDistro } from '../../model/common';
 import { EventProcessParams } from './types';
 
-export const processGivToken = async (params: EventProcessParams) => {
+export const processGivTokenEvent = async (params: EventProcessParams) => {
   const { log, ctx, chain } = params;
   ctx.log.info(`Processing GIV token event: ${chain}-${log.transaction?.hash}`);
 
