@@ -10,7 +10,7 @@ export const processBotTx = async (params: BotTxProcessParams) => {
   const chainConfig = configuration.chains[chain as Chain] as ChainConfig;
   const { bots: botAddress, botMinBalance } = chainConfig;
 
-  const bot = botAddress.find((b) => b.address === tx.from);
+  const bot = botAddress?.find((b) => b.address === tx.from);
 
   if (bot) {
     try {
@@ -29,7 +29,7 @@ export const processBotTx = async (params: BotTxProcessParams) => {
       await checkBotBalanceSanity({
         bot,
         balance,
-        botMinBalance,
+        botMinBalance: botMinBalance!,
         tx,
         chain,
         ctx,

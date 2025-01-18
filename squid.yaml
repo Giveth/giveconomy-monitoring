@@ -1,5 +1,5 @@
 manifestVersion: subsquid.io/v0.1
-name: showcase01-all-usdc-transfers
+name: evm-template
 version: 1
 description: |-
   The very first evm squid from manifest
@@ -7,9 +7,7 @@ build:
 deploy:
   addons:
     postgres:
-    rpc:
-      - gnosis.http # RPC proxy URL will be supplied via the RPC_GNOSIS_HTTP env variable
   processor:
-    cmd: ["sqd", "process:prod"]
+    cmd: ['sqd', 'process:prod']
   api:
-    cmd: ["sqd", "serve:prod"]
+    cmd: ['sqd', 'serve:prod']
