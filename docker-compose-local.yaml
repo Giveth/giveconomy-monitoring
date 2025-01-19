@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: squid
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d squid']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    # Uncomment for logging all SQL statements
+    # command: ["postgres", "-c", "log_statement=all"]
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: giveconomy-monitor
+    env_file:
+      - .env
+    environment:
+      - DB_NAME=squid
+      - DB_PORT=5432
+      - DB_HOST=db
+      - DB_PASS=postgres
+      - GQL_PORT=4350
+    ports:
+      # GraphQL endpoint at port 4350
+      - '4350:4350'
+    command: ['sqd', 'run', '.']
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # processor:
+  #   image: my-squid
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - DB_NAME=squid
+  #     - DB_PORT=5432
+  #     - DB_HOST=db
+  #     - DB_PASS=postgres
+  #   ports:
+  #     # prometheus metrics exposed at port 3000
+  #     - '3000:3000'
+  #   command: ['sqd', 'process:prod']
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy

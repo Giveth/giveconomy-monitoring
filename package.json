@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "codegen": "squid-typeorm-codegen",
-    "eslint:fix": "eslint --no-warn-ignored --fix src/*.ts src/**/*.ts src/**/**/*.ts"
+    "eslint:fix": "eslint --no-warn-ignored --fix src/*.ts src/**/*.ts src/**/**/*.ts",
+    "processor:start": "node lib/main.js",
+    "query-node:start": "squid-graphql-server"
   },
   "repository": {
     "type": "git",
