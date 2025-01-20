@@ -31,7 +31,10 @@ export class ProcessorManager {
         .setBlockRange({
           from: chainConfig.fromBlock,
         })
-        .setFinalityConfirmation(chainConfig.finalityConfirmation || 75);
+        .setFinalityConfirmation(chainConfig.finalityConfirmation || 5)
+        .setRpcDataIngestionSettings({
+          disabled: chainConfig.enableRpcDataIngestion !== true,
+        });
 
       addProcessorFilter(processor, chainConfig);
 

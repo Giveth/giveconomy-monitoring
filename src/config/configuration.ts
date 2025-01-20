@@ -34,6 +34,7 @@ export type ChainConfig = {
 
   ratelimit?: number;
   finalityConfirmation?: number;
+  enableRpcDataIngestion?: boolean;
 } & BotMonitoringConfig;
 
 export interface Configuration {
